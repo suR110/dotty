@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Dotty ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;800&display=swap');
+
+        /* RESET */
+        * {
+            box-sizing: border-box;
+            user-select: none; /* Prevents text selection for app-like feel */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            perspective: 1000px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Healing Icons Background */
+        .background-item {
+            position: absolute;
+            top: -10%;
+            opacity: 0.6;
+            animation: floatDown linear infinite;
+            z-index: 1;
+            filter: blur(1px);
+        }
+
+        @keyframes floatDown {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* GLASSMORPHISM CARD */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 40px 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            z-index: 100;
+            transform-style: preserve-3d;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .sticker {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(255, 107, 129, 0.2);
+            background: #fff;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #ff4757;
+            font-size: 2.2rem;
+            margin: 10px 0;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+        }
+
+        .subtitle {
+            color: #5352ed;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        p {
+            color: #57606f;
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* Buttons Area */
+        .btn-container {
+            position: relative;
+            height: 60px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: absolute;
+            outline: none;
+        }
+
+        #yesBtn {
+            background: linear-gradient(45deg, #ff6b81, #ff4757);
+            color: white;
+            z-index: 10;
+            /* Pulse animation to make it inviting */
+            animation: pulseHeart 2s infinite;
+        }
+
+        @keyframes pulseHeart {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 107, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0); }
+        }
+
+        #noBtn {
+            background: #dfe4ea;
+            color: #747d8c;
+            /* Initially hidden behind Yes or positioned identically */
+            opacity: 0; 
+            pointer-events: none; /* Logic will enable this */
+        }
+
+        /* Success State */
+        .success-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 40px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 200;
+        }
+
+        .success-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .success-overlay h2 {
+            font-family: 'Fredoka One', cursive;
+            color: #ff4757;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .success-overlay p {
+            font-size: 1.3rem;
+            color: #2ed573;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="bg-container"></div>
+
+    <div class="glass-card">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2QyZzV4Ynd6eWw0Z3V6eHhpZnZ4ZnZ4ZnZ4ZnZ4ZnZ4ZnZ4ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/iCVzZwwE6QhZa/giphy.gif" class="sticker" alt="Cute Bear">
+        
+        <span class="subtitle">Get well soon, my brave girl! 🩹❤️</span>
+        <h1>Will you marry me, Dotty?</h1>
+        <p>I promise to be your walking stick whenever you need me! 🥺</p>
+
+        <div class="btn-container">
+            <button id="noBtn">No</button>
+            <button id="yesBtn">YES! 💍</button>
+        </div>
+
+        <div class="success-overlay" id="successScreen">
+            <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" style="width: 150px; border-radius: 20px; margin-bottom: 20px;" alt="Happy">
+            <h2>YAYYY!! 🎉</h2>
+            <p>I love you Vysu Chellam! ❤️<br>Rest that leg now! 💊</p>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const container = document.querySelector('.glass-card');
+        const rect = container.getBoundingClientRect();
+        
+        // Initial setup to place "No" beside "Yes"
+        // We do this via JS to ensure they start perfectly aligned relative to container
+        let noBtnActive = false;
+
+        // Position the buttons nicely
+        function alignButtons() {
+            // We want the No button to appear, but effectively run away
+            // Let's reset it to start slightly to the right of Yes
+            noBtn.style.position = 'absolute';
+            noBtn.style.opacity = '1';
+            noBtn.style.pointerEvents = 'all';
+            noBtn.style.transform = 'translate(80px, 0)'; // Start right
+            noBtn.style.transition = 'transform 0.1s ease-out'; // Fast movement
+            
+            yesBtn.style.position = 'absolute';
+            yesBtn.style.transform = 'translate(-40px, 0)'; // Start left
+            
+            noBtnActive = true;
+        }
+
+        setTimeout(alignButtons, 100); // Small delay to let render finish
+
+        // --- THE "SMART" RUNAWAY LOGIC ---
+        
+        function moveNoBtn(e) {
+            if (!noBtnActive) return;
+
+            // Get the button's current position (center)
+            const noRect = noBtn.getBoundingClientRect();
+            const noX = noRect.left + noRect.width / 2;
+            const noY = noRect.top + noRect.height / 2;
+
+            // Get mouse/touch position
+            let mouseX, mouseY;
+            if (e.touches) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+            } else {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            }
+
+            // Calculate distance
+            const dist = Math.sqrt(Math.pow(mouseX - noX, 2) + Math.pow(mouseY - noY, 2));
+
+            // Trigger radius: if cursor is within 150px, move it!
+            if (dist < 150) {
+                // Calculate angle to move AWAY from cursor
+                const angle = Math.atan2(noY - mouseY, noX - mouseX);
+                
+                // Move distance (jump)
+                const jump = 200; 
+                
+                // Calculate new potential position
+                let newX = noX + Math.cos(angle) * jump;
+                let newY = noY + Math.sin(angle) * jump;
+
+                // --- Wall Collision Detection (Keep it on screen) ---
+                const padding = 50;
+                const winWidth = window.innerWidth;
+                const winHeight = window.innerHeight;
+
+                // If it hits a wall, bounce it back to center
+                if (newX < padding || newX > winWidth - padding || newY < padding || newY > winHeight - padding) {
+                    newX = winWidth / 2 + (Math.random() * 200 - 100);
+                    newY = winHeight / 2 + (Math.random() * 200 - 100);
+                }
+
+                // Apply the move using Fixed position for screen-relative movement
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = (newX - noRect.width/2) + 'px';
+                noBtn.style.top = (newY - noRect.height/2) + 'px';
+                noBtn.style.transform = 'none'; // Clear initial transforms
+            }
+        }
+
+        // Listeners
+        document.addEventListener('mousemove', moveNoBtn);
+        document.addEventListener('touchmove', (e) => { e.preventDefault(); moveNoBtn(e); }, {passive: false});
+        
+        // Extra Safe: If she tries to click No, it acts as Yes
+        noBtn.addEventListener('click', () => {
+             // Just in case she's faster than light
+             yesBtn.click();
+        });
+
+        // --- YES BUTTON LOGIC ---
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('successScreen').classList.add('visible');
+            createConfetti();
+        });
+
+        // --- BACKGROUND GENERATOR (Hearts & Bandages) ---
+        function createBackground() {
+            const bg = document.getElementById('bg-container');
+            const icons = ['❤️', '💖', '🩹', '💊', '✨', '💍'];
+            const count = 30;
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'background-item';
+                el.innerText = icons[Math.floor(Math.random() * icons.length)];
+                
+                // Random positioning
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                
+                // Random animation speed
+                const duration = Math.random() * 10 + 10; // 10s to 20s
+                el.style.animationDuration = duration + 's';
+                el.style.animationDelay = (Math.random() * 10) + 's';
+                
+                bg.appendChild(el);
+            }
+        }
+
+        // --- CONFETTI CANNON ---
+        function createConfetti() {
+            const colors = ['#ff6b81', '#ff4757', '#2ed573', '#eccc68', '#70a1ff'];
+            for(let i=0; i<100; i++) {
+                const conf = document.createElement('div');
+                conf.style.position = 'fixed';
+                conf.style.width = '10px';
+                conf.style.height = '10px';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = '50%';
+                conf.style.top = '50%';
+                conf.style.zIndex = '300';
+                conf.style.borderRadius = '50%';
+                document.body.appendChild(conf);
+
+                // Physics for explosion
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 200 + 100;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                conf.animate([
+                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1000 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0, .9, .57, 1)',
+                    fill: 'forwards'
+                });
+            }
+        }
+
+        createBackground();
+
+    </script>
+</body>
+</html>
